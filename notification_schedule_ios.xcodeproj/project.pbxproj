@@ -397,13 +397,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2H47C28B25;
-                                ENABLE_PREVIEWS = YES;
-                                INFOPLIST_FILE = notification_schedule_ios/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+                               DEVELOPMENT_TEAM = 2H47C28B25;
+                               ENABLE_PREVIEWS = YES;
+                               INFOPLIST_FILE = notification_schedule_ios/Info.plist;
+                               GENERATE_INFOPLIST_FILE = NO;
+                               LD_RUNPATH_SEARCH_PATHS = (
+                                       "$(inherited)",
+                                       "@executable_path/Frameworks",
+                               );
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.su.notification-schedule-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -420,13 +421,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2H47C28B25;
-                                ENABLE_PREVIEWS = YES;
-                                INFOPLIST_FILE = notification_schedule_ios/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+                               DEVELOPMENT_TEAM = 2H47C28B25;
+                               ENABLE_PREVIEWS = YES;
+                               INFOPLIST_FILE = notification_schedule_ios/Info.plist;
+                               GENERATE_INFOPLIST_FILE = NO;
+                               LD_RUNPATH_SEARCH_PATHS = (
+                                       "$(inherited)",
+                                       "@executable_path/Frameworks",
+                               );
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.su.notification-schedule-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
