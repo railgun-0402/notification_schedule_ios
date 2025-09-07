@@ -2,8 +2,6 @@
 //  notification_schedule_iosTests.swift
 //  notification_schedule_iosTests
 //
-//  Created by 菅原大輝 on 2025/09/07.
-//
 
 import Testing
 @testable import notification_schedule_ios

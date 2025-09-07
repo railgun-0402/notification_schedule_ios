@@ -2,8 +2,6 @@
 //  notification_schedule_iosUITestsLaunchTests.swift
 //  notification_schedule_iosUITests
 //
-//  Created by 菅原大輝 on 2025/09/07.
-//
 
 import XCTest
 
