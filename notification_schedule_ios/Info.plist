@@ -42,5 +42,9 @@
         <key>UIApplicationSupportsMultipleScenes</key>
         <false/>
     </dict>
+    <key>CFBundleName</key>
+    <string>notification_schedule_ios</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>カレンダーへのアクセスを許可してください。</string>
 </dict>
 </plist>
