@@ -29,4 +29,17 @@ final class EventListViewModel: ObservableObject {
             showError = true
         }
     }
+
+    func delete(at offsets: IndexSet) {
+        let ids = offsets.map { events[$0].id }
+        do {
+            for id in ids {
+                try service.deleteEvent(identifier: id)
+            }
+            events.remove(atOffsets: offsets)
+        } catch {
+            errorMessage = error.localizedDescription
+            showError = true
+        }
+    }
 }
