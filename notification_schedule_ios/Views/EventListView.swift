@@ -40,11 +40,16 @@ struct EventListView: View {
             if viewModel.events.isEmpty {
                 EmptyStateView()
             } else {
-                List(viewModel.events) { event in
-                    VStack(alignment: .leading) {
-                        Text(event.title).font(.headline)
-                        Text(event.startDate, style: .date)
-                        Text(event.startDate, style: .time)
+                List {
+                    ForEach(viewModel.events) { event in
+                        VStack(alignment: .leading) {
+                            Text(event.title).font(.headline)
+                            Text(event.startDate, style: .date)
+                            Text(event.startDate, style: .time)
+                        }
+                    }
+                    .onDelete { indexSet in
+                        viewModel.delete(at: indexSet)
                     }
                 }
                 .listStyle(.plain)
