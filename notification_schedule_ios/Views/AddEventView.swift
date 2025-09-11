@@ -11,8 +11,13 @@ struct AddEventView: View {
                     TextField("タイトル", text: $viewModel.title)
                 }
                 Section("開始日時") {
-                    DatePicker("", selection: $viewModel.date, in: Date()..., displayedComponents: [.date, .hourAndMinute])
-                        .labelsHidden()
+                    DatePicker(
+                        "",
+                        selection: $viewModel.date,
+                        in: Date()...,
+                        displayedComponents: [.date, .hourAndMinute]
+                    )
+                    .labelsHidden()
                 }
                 Section("メモ") {
                     TextEditor(text: $viewModel.notes)

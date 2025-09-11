@@ -19,11 +19,15 @@ struct EventListView: View {
                         }
                     }
                 }
-                .sheet(isPresented: $showAdd, onDismiss: {
-                    Task { await viewModel.loadEvents() }
-                }) {
-                    AddEventView()
-                }
+                .sheet(
+                    isPresented: $showAdd,
+                    onDismiss: {
+                        Task { await viewModel.loadEvents() }
+                    },
+                    content: {
+                        AddEventView()
+                    }
+                )
                 .alert("エラー", isPresented: $viewModel.showError) {
                     Button("OK", role: .cancel) {}
                 } message: {
