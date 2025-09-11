@@ -5,7 +5,7 @@
 
 import XCTest
 
-final class NotificationScheduleIosUITestsLaunchTests: XCTestCase {
+final class NotificationScheduleUITestsLaunchTests: XCTestCase {
 
     override static var runsForEachTargetApplicationUIConfiguration: Bool {
         true
