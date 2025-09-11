@@ -1,0 +1,11 @@
+disabled_rules:
+  - trailing_whitespace
+
+included:
+  - notification_schedule_ios
+  - notification_schedule_iosTests
+  - notification_schedule_iosUITests
+
+line_length:
+  warning: 120
+  error: 200
