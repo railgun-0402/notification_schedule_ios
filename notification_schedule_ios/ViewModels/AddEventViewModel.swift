@@ -29,7 +29,12 @@ final class AddEventViewModel: ObservableObject {
             return
         }
         do {
-            try await service.createEvent(title: title, startDate: date, notes: notes.isEmpty ? nil : notes, minutesBefore: minutesBefore)
+            try await service.createEvent(
+                title: title,
+                startDate: date,
+                notes: notes.isEmpty ? nil : notes,
+                minutesBefore: minutesBefore
+            )
             alertMessage = "保存しました。"
             isSuccess = true
         } catch {
