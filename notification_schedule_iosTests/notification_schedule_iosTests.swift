@@ -6,7 +6,7 @@
 import Testing
 @testable import notification_schedule_ios
 
-struct notification_schedule_iosTests {
+struct NotificationScheduleIosTests {
 
     @Test func example() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.
