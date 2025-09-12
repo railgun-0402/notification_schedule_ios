@@ -17,6 +17,11 @@ enum EventStoreError: LocalizedError {
 final class EventStoreService {
     private let store = EKEventStore()
 
+    private func writableCalendar() -> EKCalendar? {
+        let calendars = store.calendars(for: .event)
+        return calendars.first { $0.allowsContentModifications } ?? store.defaultCalendarForNewEvents
+    }
+
     func authorizationStatus() -> EKAuthorizationStatus {
         EKEventStore.authorizationStatus(for: .event)
     }
@@ -47,7 +52,7 @@ final class EventStoreService {
         event.startDate = startDate
         event.endDate = startDate.addingTimeInterval(30 * 60)
         event.notes = notes
-        event.calendar = store.defaultCalendarForNewEvents
+        event.calendar = writableCalendar()
         let alarm = EKAlarm(relativeOffset: alarmOffset(for: minutesBefore))
         event.addAlarm(alarm)
         do {
@@ -69,6 +74,9 @@ final class EventStoreService {
         }
         guard let event = store.event(withIdentifier: identifier) else {
             throw EventStoreError.failed
+        }
+        if !(event.calendar?.allowsContentModifications ?? false) {
+            event.calendar = writableCalendar()
         }
         event.title = title
         event.startDate = startDate
