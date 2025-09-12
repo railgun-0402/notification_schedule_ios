@@ -18,8 +18,7 @@ final class EventStoreService {
     private let store = EKEventStore()
 
     private func writableCalendar() -> EKCalendar? {
-        let calendars = store.calendars(for: .event)
-        return calendars.first { $0.allowsContentModifications } ?? store.defaultCalendarForNewEvents
+        store.calendars(for: .event).first { $0.allowsContentModifications }
     }
 
     func authorizationStatus() -> EKAuthorizationStatus {
@@ -39,7 +38,9 @@ final class EventStoreService {
         let start = calendar.startOfDay(for: Date())
         guard let end = calendar.date(byAdding: .day, value: 90, to: start) else { return [] }
         let predicate = store.predicateForEvents(withStart: start, end: end, calendars: nil)
-        let events = store.events(matching: predicate).sorted { $0.startDate < $1.startDate }
+        let events = store.events(matching: predicate)
+            .filter { $0.calendar.allowsContentModifications }
+            .sorted { $0.startDate < $1.startDate }
         return events.prefix(limit).map { AppEvent(event: $0) }
     }
 
@@ -47,12 +48,15 @@ final class EventStoreService {
         guard authorizationStatus() == .authorized else {
             throw EventStoreError.accessDenied
         }
+        guard let calendar = writableCalendar() else {
+            throw EventStoreError.failed
+        }
         let event = EKEvent(eventStore: store)
         event.title = title
         event.startDate = startDate
         event.endDate = startDate.addingTimeInterval(30 * 60)
         event.notes = notes
-        event.calendar = writableCalendar()
+        event.calendar = calendar
         let alarm = EKAlarm(relativeOffset: alarmOffset(for: minutesBefore))
         event.addAlarm(alarm)
         do {
@@ -76,7 +80,10 @@ final class EventStoreService {
             throw EventStoreError.failed
         }
         if !(event.calendar?.allowsContentModifications ?? false) {
-            event.calendar = writableCalendar()
+            guard let calendar = writableCalendar() else {
+                throw EventStoreError.failed
+            }
+            event.calendar = calendar
         }
         event.title = title
         event.startDate = startDate
