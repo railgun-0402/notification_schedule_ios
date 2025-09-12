@@ -34,6 +34,7 @@ struct EventListView: View {
                     Text(viewModel.errorMessage)
                 }
                 .task { await viewModel.onAppear() }
+                .onAppear { Task { await viewModel.loadEvents() } }
         }
     }
 
@@ -46,10 +47,14 @@ struct EventListView: View {
             } else {
                 List {
                     ForEach(viewModel.events) { event in
-                        VStack(alignment: .leading) {
-                            Text(event.title).font(.headline)
-                            Text(event.startDate, style: .date)
-                            Text(event.startDate, style: .time)
+                        NavigationLink {
+                            EventDetailView(event: event)
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text(event.title).font(.headline)
+                                Text(event.startDate, style: .date)
+                                Text(event.startDate, style: .time)
+                            }
                         }
                     }
                     .onDelete { indexSet in

@@ -57,6 +57,33 @@ final class EventStoreService {
         }
     }
 
+    func updateEvent(
+        identifier: String,
+        title: String,
+        startDate: Date,
+        notes: String?,
+        minutesBefore: Int
+    ) async throws {
+        guard authorizationStatus() == .authorized else {
+            throw EventStoreError.accessDenied
+        }
+        guard let event = store.event(withIdentifier: identifier) else {
+            throw EventStoreError.failed
+        }
+        event.title = title
+        event.startDate = startDate
+        event.endDate = startDate.addingTimeInterval(30 * 60)
+        event.notes = notes
+        event.alarms?.forEach { event.removeAlarm($0) }
+        let alarm = EKAlarm(relativeOffset: alarmOffset(for: minutesBefore))
+        event.addAlarm(alarm)
+        do {
+            try store.save(event, span: .thisEvent)
+        } catch {
+            throw EventStoreError.failed
+        }
+    }
+
     func deleteEvent(identifier: String) throws {
         guard let event = store.event(withIdentifier: identifier) else { return }
         try store.remove(event, span: .thisEvent)
