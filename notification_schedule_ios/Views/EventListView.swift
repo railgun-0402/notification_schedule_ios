@@ -5,6 +5,7 @@ import UIKit
 struct EventListView: View {
     @StateObject private var viewModel = EventListViewModel()
     @State private var showAdd = false
+    @State private var editingEvent: AppEvent?
 
     var body: some View {
         NavigationStack {
@@ -28,6 +29,11 @@ struct EventListView: View {
                         AddEventView()
                     }
                 )
+                .sheet(item: $editingEvent, onDismiss: {
+                    Task { await viewModel.loadEvents() }
+                }, content: { event in
+                    AddEventView(event: event)
+                })
                 .alert("エラー", isPresented: $viewModel.showError) {
                     Button("OK", role: .cancel) {}
                 } message: {
@@ -46,11 +52,16 @@ struct EventListView: View {
             } else {
                 List {
                     ForEach(viewModel.events) { event in
-                        VStack(alignment: .leading) {
-                            Text(event.title).font(.headline)
-                            Text(event.startDate, style: .date)
-                            Text(event.startDate, style: .time)
+                        Button {
+                            editingEvent = event
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text(event.title).font(.headline)
+                                Text(event.startDate, style: .date)
+                                Text(event.startDate, style: .time)
+                            }
                         }
+                        .buttonStyle(.plain)
                     }
                     .onDelete { indexSet in
                         viewModel.delete(at: indexSet)
