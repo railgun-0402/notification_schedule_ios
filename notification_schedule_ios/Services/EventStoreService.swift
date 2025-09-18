@@ -32,7 +32,9 @@ final class EventStoreService {
     func fetchUpcomingEvents(limit: Int = 30) async throws -> [AppEvent] {
         let calendar = Calendar.current
         let start = calendar.startOfDay(for: Date())
-        guard let end = calendar.date(byAdding: .day, value: 90, to: start) else { return [] }
+        guard let end = calendar.date(byAdding: .day, value: 90, to: start) else {
+            return []
+        }
         let predicate = store.predicateForEvents(withStart: start, end: end, calendars: nil)
         let events = store.events(matching: predicate).sorted { $0.startDate < $1.startDate }
         return events.prefix(limit).map { AppEvent(event: $0) }
