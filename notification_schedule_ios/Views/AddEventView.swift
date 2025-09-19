@@ -2,7 +2,11 @@ import SwiftUI
 
 struct AddEventView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel = AddEventViewModel()
+    @StateObject private var viewModel: AddEventViewModel
+
+    init(event: AppEvent? = nil, service: EventStoreService = EventStoreService()) {
+        _viewModel = StateObject(wrappedValue: AddEventViewModel(event: event, service: service))
+    }
 
     var body: some View {
         NavigationStack {
@@ -27,13 +31,13 @@ struct AddEventView: View {
                     Stepper("\(viewModel.minutesBefore)分前", value: $viewModel.minutesBefore, in: 0...1440)
                 }
             }
-            .navigationTitle("予定を追加")
+            .navigationTitle(viewModel.navigationTitle)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("閉じる") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("保存") {
+                    Button(viewModel.confirmButtonTitle) {
                         Task { await viewModel.save() }
                     }
                     .disabled(!viewModel.canSave)
